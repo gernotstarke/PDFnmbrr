@@ -22,7 +22,7 @@ We create PDF files from various sources (ppt, odt, doc, keynote, html...) and w
 
 With these various document sources, it's neither possible to create consistent pagenumbers, nor to add custom header information.
 
-![the problem](./images/AToPDF_the_Problem.png)
+![the problem](docs/images/PDN-numbering-problem.png)
 
 Instead of flushing down many many bucks into Adob*s hungry mouth I decided (way back in 2013) to create my own solution.
 Back then I used the https://griffon-framework.org[Griffon Framework] for the first version, plus the awesome https://github.com/itext/itextpdf[itext-pdf] library for handling pdfs.
@@ -35,7 +35,7 @@ The original app refuses to start any longer...
 ### Preconditions
 
 1. The *content* of the files has been converted to pdf (so we're not concerned about the original data or file formats nor the tools to create/manipulate the original content).
-2. The dimensions (pagesize) of the pdf files identical (we assume A4-portrait in most cases).
+2. The dimensions (page size) of the pdf files identical (we assume A4-portrait in most cases).
 3. The existing pdf files are *not* encrypted.
 
 4. We don't want to make any assumptions about user infrastructure, so we don't want the user to install things like Java...
@@ -44,7 +44,7 @@ The original app refuses to start any longer...
 
 Ooops - the following use case diagram looks like a big app - which our little pdf numberer is not :-)
 
-![use cases](./images/AToPdf_use_cases.jpg)
+![use cases](docs/images/AToPdf_use_cases.jpg)
 
 ...
 

@@ -50,7 +50,7 @@ func srcDirSelectorUI() *fyne.Container {
 		srcDirField.SetText(sourceDir)
 	})
 
-	srcDirLabel := canvas.NewText("0 PDFs found", ui.DarkBlueColor)
+	srcDirLabel := canvas.NewText("nothing selected", ui.NavyColor)
 	srcDirLabel.TextSize = 9
 
 	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
@@ -87,12 +87,20 @@ func targetDirSelectorUI() *fyne.Container {
 
 func statusLine(msg string) *fyne.Container {
 
-	label := canvas.NewText(msg, ui.PinkColor)
-	label.TextSize = 10
-	label.Alignment = fyne.TextAlignTrailing
+	statusMsg := canvas.NewText(msg, ui.DarkRedColor)
+	statusMsg.TextSize = 10
+	statusMsg.Alignment = fyne.TextAlignTrailing
+
+	byArc42 := canvas.NewText("created by arc42.org", ui.NavyColor)
+	byArc42.TextSize = 10
+	byArc42.Alignment = fyne.TextAlignCenter
 
 	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
-		label)
+		byArc42,
+		widget.NewSeparator(),
+		layout.NewSpacer(),
+		statusMsg,
+	)
 }
 
 func main() {
@@ -116,6 +124,8 @@ func main() {
 		srcDirSelectorUI(),
 		widget.NewSeparator(),
 		targetDirSelectorUI(),
+		widget.NewSeparator(),
+		layout.NewSpacer(),
 		widget.NewSeparator(),
 		statusLine( "no source directory selected"))
 
