@@ -3,24 +3,14 @@
 Version: January 2021, Gernot Starke
 
 
+:toc:
+:toc-placement!:
+
+
 ##### Contents
 
-0. <<id-status, Status>>
-1. <<id_intro,Intro and Requirements>>
-    * <<id-quality-reqs,Quality requirements>>
-2. <<Constraints>>
-3. [Context](#header_context)
-4. [Solution Strategy](#header_solution)
-5. [Building Blocks](#header_blocks)
-6. [Crosscutting Concepts](#header_concepts)
-    * Pdf handling (page layout, stamping, positioning text)
-    * Domain model
-    * Acceptance Testing (_behavior)
-    * Build
-7. [Developer Guide](#header_developer)
-	* Directory layout
-8. [Glossary](#header_glossary)
-9. [Release Notes](#header_relnotes)
+toc::[]
+
 
 [it-status]
 ## Status

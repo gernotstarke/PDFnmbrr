@@ -1,0 +1,21 @@
+linters:
+  disable-all: true
+  enable:
+    - golint
+    - govet
+    - staticcheck
+    - asciicheck
+    - deadcode
+    - ineffassign
+    - unused
+    - varcheck
+    - errcheck
+    - dupl
+
+linters-settings:
+  govet:
+    check-shadowing: true
+
+issues:
+  exclude-use-default: false
+
