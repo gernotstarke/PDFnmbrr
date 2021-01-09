@@ -13,8 +13,10 @@ import (
 	"pdfcpuSamples/ui"
 )
 
+var appl fyne.App
 var sourceDir string
 var targetDir string
+
 
 func logoHeader() *fyne.Container {
 	arc42Logo := canvas.NewImageFromFile("resources/arc42-logo.png")
@@ -82,6 +84,19 @@ func targetDirSelectorUI() *fyne.Container {
 }
 
 
+func OKCancelButtons() *fyne.Container {
+
+	OKButton := widget.NewButton( "Process PDFs", func() { })
+	OKButton.Disable()
+
+	CancelButton := widget.NewButton("Cancel", quitApp)
+
+	return fyne.NewContainerWithLayout( layout.NewHBoxLayout(),
+		layout.NewSpacer(),
+		CancelButton,
+		OKButton)
+}
+
 // a really bad implementation, as it returns a new container with every call...
 // need to be able to just modify the message
 
@@ -105,18 +120,9 @@ func statusLine(msg string) *fyne.Container {
 
 func main() {
 
-	a := app.New()
-	a.Settings().SetTheme(theme.LightTheme())
-	w := a.NewWindow("Simple Sample Layout ")
-
-	line := canvas.NewLine(ui.DarkBlueColor)
-	line.Resize(fyne.NewSize(595, 1))
-	line.StrokeWidth = 1
-
-
-	line2 := canvas.NewLine(ui.DarkGrayColor)
-	line2.Resize( fyne.NewSize(595,1))
-	line2.StrokeWidth = 1
+	appl = app.New()
+	appl.Settings().SetTheme(theme.LightTheme())
+	w := appl.NewWindow("PDFnmbrr - pre-alpha ")
 
 	container := fyne.NewContainerWithLayout( layout.NewVBoxLayout(),
 		logoHeader(),
@@ -127,6 +133,8 @@ func main() {
 		widget.NewSeparator(),
 		layout.NewSpacer(),
 		widget.NewSeparator(),
+		OKCancelButtons(),
+		widget.NewSeparator(),
 		statusLine( "no source directory selected"))
 
 
@@ -135,4 +143,8 @@ func main() {
 	w.SetFixedSize(true)
 	w.ShowAndRun()
 	w.CenterOnScreen()
+}
+
+func quitApp() {
+	appl.Quit()
 }
