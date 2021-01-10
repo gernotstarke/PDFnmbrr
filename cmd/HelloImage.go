@@ -22,7 +22,8 @@ func main() {
 	appLogo3.FillMode = canvas.ImageFillOriginal
 	appLogo3.Resize( fyne.NewSize( 200, 210))
 
-	container := fyne.NewContainerWithLayout( layout.NewHBoxLayout(), logoHeader2())
+	container := fyne.NewContainerWithLayout(
+		layout.NewHBoxLayout(), logoHeader2())
 
 //	container := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 //		appLogo1,
