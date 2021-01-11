@@ -10,6 +10,7 @@ import (
 	"fyne.io/fyne/widget"
 	"net/url"
 	"pdfcpuSamples/domain"
+	"pdfcpuSamples/resources"
 )
 
 
@@ -52,7 +53,7 @@ func parseURL(urlStr string) *url.URL {
 }
 
 func logoHeaderPanel() *fyne.Container {
-	arc42Logo := canvas.NewImageFromFile("resources/arc42-logo.png")
+	arc42Logo := canvas.NewImageFromResource(resources.Arc42LogoPNG)
 	arc42Logo.FillMode = canvas.ImageFillContain
 	arc42Logo.SetMinSize(fyne.NewSize(80, 40))
 	arc42Logo.Resize(fyne.NewSize(80, 40))
@@ -60,7 +61,7 @@ func logoHeaderPanel() *fyne.Container {
 	arc42Link := widget.NewHyperlinkWithStyle("arc42.org",
 		parseURL("https://arc42.org"), fyne.TextAlignLeading, fyne.TextStyle{Bold: false})
 
-	appLogo := canvas.NewImageFromFile("resources/PDFnumbrr-logo.png")
+	appLogo := canvas.NewImageFromResource(resources.PDFnmbrrlogoPNG)
 	appLogo.FillMode = canvas.ImageFillContain
 	appLogo.SetMinSize(fyne.NewSize(200, 120))
 	appLogo.Resize(fyne.NewSize(200, 120))
