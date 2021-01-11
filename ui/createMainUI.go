@@ -88,12 +88,11 @@ func directoriesPanel() fyne.CanvasObject {
 }
 
 func srcDirSelectorGroup() *fyne.Container {
-
-	//fmt.Println(dir)
+    // todo: replace label by Entry
 	srcDirField := widget.NewLabel("/Users/gernotstarke")
 
 	srcDirButton := widget.NewButton("Source", func() {
-		srcDirField.SetText(domain.SourceDir)
+		srcDirField.SetText(domain.SourceDirName())
 	})
 
 	srcDirLabel := canvas.NewText("nothing selected", NavyColor)
@@ -108,10 +107,11 @@ func srcDirSelectorGroup() *fyne.Container {
 }
 
 func targetDirSelectorGroup() *fyne.Container {
+	// todo: replace Label by Entry
 	targetDirField := widget.NewLabel("/Users/gernotstarke/_target")
 
 	targetDirButton := widget.NewButton("Target", func() {
-		targetDirField.SetText( fmt.Sprintf("%v", domain.TargetDir))
+		targetDirField.SetText( fmt.Sprintf("%v", domain.TargetDirName()))
 	})
 
 	targetValid := widget.NewCheck("valid:", func(bool) {})
@@ -171,13 +171,14 @@ func pageConfigGroup() *fyne.Container {
 	pagePrefixEntry := widget.NewEntry()
 	pagePrefixEntry.SetText( "Seite")
 
-	pageNrPositionSelect := widget.NewSelect([]string{"outside", "inside", "center 3"},
-	     func(s string) { fmt.Println("selected", s) })
+	pageNrPositionSelect := widget.NewSelectEntry([]string{"outside", "inside", "center"})
+	pageNrPositionSelect.SetText("outside")
 
 	return fyne.NewContainerWithLayout( layout.NewHBoxLayout(),
 		widget.NewLabel( "Page prefix:"),
 		pagePrefixEntry,
 		layout.NewSpacer(),
+		widget.NewLabel( "Page nr position:"),
 		pageNrPositionSelect)
 }
 
