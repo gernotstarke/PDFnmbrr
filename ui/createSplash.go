@@ -8,14 +8,13 @@ import (
 	"time"
 )
 
-func CreateAndDisplaySplash()  {
+func CreateAndDisplaySplash() {
 
 	if drv, ok := fyne.CurrentApp().Driver().(desktop.Driver); ok {
 		splashWindow := drv.CreateSplashWindow()
 
 		splash := canvas.NewImageFromResource(resources.PDFnmbrrSplash)
-		splash.SetMinSize( fyne.NewSize(600, 540))
-
+		splash.SetMinSize(fyne.NewSize(600, 540))
 
 		splashWindow.SetContent(splash)
 		splashWindow.Show()

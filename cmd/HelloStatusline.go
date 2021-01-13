@@ -15,13 +15,10 @@ func main() {
 	a.Settings().SetTheme(theme.LightTheme())
 	w := a.NewWindow("Hello Status Line")
 
-
-
 	container := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		layout.NewSpacer(),
 		widget.NewSeparator(),
 		statusLine2("no status available"),
-
 	)
 
 	w.SetContent(container)
@@ -47,6 +44,3 @@ func statusLine2(msg string) *fyne.Container {
 		statusMsg,
 	)
 }
-
-
-

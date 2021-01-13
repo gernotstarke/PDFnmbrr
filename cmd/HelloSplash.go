@@ -18,7 +18,7 @@ func main() {
 
 	w := a.NewWindow("Hello Splash")
 
-	time.Sleep( time.Millisecond * 3000)
+	time.Sleep(time.Millisecond * 3000)
 	container := fyne.NewContainerWithLayout(
 		layout.NewHBoxLayout(),
 		widget.NewLabel("one label"),
@@ -31,18 +31,17 @@ func main() {
 	//w.ShowAndRun()
 }
 
-func createAndDisplaySplash()  {
+func createAndDisplaySplash() {
 	if drv, ok := fyne.CurrentApp().Driver().(desktop.Driver); ok {
 		splashWindow := drv.CreateSplashWindow()
 
-//		splash := canvas.NewImageFromResource(resources.PDFnmbrrSplash)
+		//		splash := canvas.NewImageFromResource(resources.PDFnmbrrSplash)
 		//splash.Resize(fyne.NewSize(600, 543))
 		//splash.FillMode = canvas.ImageFillContain
 
-
 		splashWindow.SetContent(
 			fyne.NewContainerWithLayout(layout.NewGridWrapLayout(fyne.NewSize(500, 440)),
-				canvas.NewImageFromResource( resources.PDFnmbrrSplash)) )
+				canvas.NewImageFromResource(resources.PDFnmbrrSplash)))
 
 		splashWindow.Show()
 

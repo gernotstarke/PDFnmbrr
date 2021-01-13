@@ -12,34 +12,32 @@ import (
 // selected and which processing options are configured.
 var config configuration
 
-
 // getter functions for better data encapsulation
 // ================
-func SourceDirName() string { return config.sourceDirName}
-func TargetDirName() string { return config.targetDirName}
+func SourceDirName() string { return config.sourceDirName }
+func TargetDirName() string { return config.targetDirName }
 
-func IsNumerate() bool{ return config.numerate}
-func PageNumberPrefix() string { return config.pageNumberPrefix }
-func ChapterPageSeparator() string { return config.chapterPageSeparator}
-func ChapterPrefix() string { return config.chapterPrefix}
-func HeaderText() string { return config.headerText }
-func IsEvenify() bool {return config.evenify }
-func BlankPageText() string { return config.blankPageText }
-func IsConcatenate() bool { return config.concatenate }
+func IsNumerate() bool             { return config.numerate }
+func PageNumberPrefix() string     { return config.pageNumberPrefix }
+func ChapterPageSeparator() string { return config.chapterPageSeparator }
+func ChapterPrefix() string        { return config.chapterPrefix }
+func HeaderText() string           { return config.headerText }
+func IsEvenify() bool              { return config.evenify }
+func BlankPageText() string        { return config.blankPageText }
+func IsConcatenate() bool          { return config.concatenate }
 
 // setter functions to avoid uncontrolled changes to global data...
 // ================
-func SetSourceDirName(srcDir string) error { return nil }
-func SetTargetDirName(targetDir string) error { return nil }
-func SetNumerate(numerate bool) error { return nil }
-func SetPageNumberPrefix( pageNumberPrefix string) error { return nil }
-func SetChapterPageSeparator( chapterPageSeparator string ) error { return nil }
-func SetChapterPrefix(chapterPrefix string ) error { return nil }
-func SetHeaderText(headerText string ) error { return nil }
-func SetEvenify(evenify bool) error { return nil }
-func SetBlankPageText(blankPageText string) error { return nil }
-func SetConcatenate(concatenate bool) error { return nil }
-
+func SetSourceDirName(srcDir string) error                      { return nil }
+func SetTargetDirName(targetDir string) error                   { return nil }
+func SetNumerate(numerate bool) error                           { return nil }
+func SetPageNumberPrefix(pageNumberPrefix string) error         { return nil }
+func SetChapterPageSeparator(chapterPageSeparator string) error { return nil }
+func SetChapterPrefix(chapterPrefix string) error               { return nil }
+func SetHeaderText(headerText string) error                     { return nil }
+func SetEvenify(evenify bool) error                             { return nil }
+func SetBlankPageText(blankPageText string) error               { return nil }
+func SetConcatenate(concatenate bool) error                     { return nil }
 
 // todo: use constructor function instead
 func SetupConfiguration() {

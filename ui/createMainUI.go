@@ -5,6 +5,7 @@ import (
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/canvas"
+	"fyne.io/fyne/dialog"
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/theme"
 	"fyne.io/fyne/widget"
@@ -15,6 +16,7 @@ import (
 
 // Appl exposes the fyne application - mainly to enable the quit-function to stop the app.
 var Appl fyne.App
+var Window fyne.Window
 
 // CreateMainUI creates and shows the main graphical user interface.
 // It creates by delegating to "Panel" functions which will create their respective panel.
@@ -25,7 +27,7 @@ func CreateMainUI() {
 	// CreateAndDisplaySplash()
 
 	Appl.Settings().SetTheme(theme.LightTheme())
-	w := Appl.NewWindow(domain.AppName)
+	Window = Appl.NewWindow(domain.AppName)
 
 	container := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		logoHeaderPanel(),
@@ -36,11 +38,11 @@ func CreateMainUI() {
 		widget.NewSeparator(),
 		statusLine("no source directory selected"))
 
-	w.SetContent(container)
-	w.Resize(fyne.NewSize(600, 400))
-	w.SetFixedSize(true)
-	w.CenterOnScreen()
-	w.ShowAndRun()
+	Window.SetContent(container)
+	Window.Resize(fyne.NewSize(600, 400))
+	Window.SetFixedSize(true)
+	Window.CenterOnScreen()
+	Window.ShowAndRun()
 }
 
 func parseURL(urlStr string) *url.URL {
@@ -89,11 +91,33 @@ func directoriesPanel() fyne.CanvasObject {
 }
 
 func srcDirSelectorGroup() *fyne.Container {
-	// todo: replace label by Entry
-	srcDirField := widget.NewLabel(domain.SourceDirName())
+	srcDirField := widget.NewEntry()
+	srcDirField.SetText(domain.SourceDirName())
+
+	// todo: call file selector
+	//srcDirButton := widget.NewButton("Source", func() {
+	//	srcDirField.SetText(domain.SourceDirName())
+	//})
 
 	srcDirButton := widget.NewButton("Source", func() {
-		srcDirField.SetText(domain.SourceDirName())
+		dialog.ShowFolderOpen(func(list fyne.ListableURI, err error) {
+			if err != nil {
+				dialog.ShowError(err, Window)
+				return
+			}
+			if list == nil {
+				return
+			}
+
+			_, err = list.List()
+			if err != nil {
+				dialog.ShowError(err, Window)
+				return
+			}
+			srcDirField.SetText( list.Name())
+			fmt.Printf("Folder %s :\n%s", list.Name(),  list.String())
+			// dialog.ShowInformation("Folder Open", out, Window)
+		}, Window)
 	})
 
 	srcDirLabel := canvas.NewText("nothing selected", NavyColor)
@@ -108,16 +132,16 @@ func srcDirSelectorGroup() *fyne.Container {
 }
 
 func targetDirSelectorGroup() *fyne.Container {
-	// todo: replace Label by Entry
-	targetDirField := widget.NewLabel(domain.TargetDirName())
+	targetDirField := widget.NewEntry()
+	targetDirField.SetText(domain.TargetDirName())
 
+	// todo: call file selector...
 	targetDirButton := widget.NewButton("Target", func() {
 		targetDirField.SetText(fmt.Sprintf("%v", domain.TargetDirName()))
 	})
 
 	targetDirLabel := canvas.NewText("", NavyColor)
 	targetDirLabel.TextSize = 9
-
 
 	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		targetDirButton,
@@ -146,8 +170,8 @@ func evenifyConfigGroup() *fyne.Container {
 	evenifyText.Disable()
 	evenifyText.SetText(domain.BlankPageText())
 
-	evenifyCheckbox := widget.NewCheck("Evenify?", func( value bool) {
-		if value==false {
+	evenifyCheckbox := widget.NewCheck("Evenify?", func(value bool) {
+		if value == false {
 			evenifyText.Disable()
 		} else {
 			evenifyText.Enable()
@@ -170,14 +194,13 @@ func headerConfigGroup() *fyne.Container {
 	headingEntry := widget.NewEntry()
 	headingEntry.SetPlaceHolder(domain.HeaderText())
 
-	headerCheckbox := widget.NewCheck("Header?", func( value bool) {
-		if value==false {
+	headerCheckbox := widget.NewCheck("Header?", func(value bool) {
+		if value == false {
 			headingEntry.Disable()
 		} else {
 			headingEntry.Enable()
 		}
 	})
-
 
 	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		headerCheckbox,
@@ -224,7 +247,7 @@ func okCancelPanel() fyne.CanvasObject {
 
 	CancelButton := widget.NewButton("Cancel", quitApp)
 
-	buttons :=  fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+	buttons := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
 		CancelButton,
 		OKButton)

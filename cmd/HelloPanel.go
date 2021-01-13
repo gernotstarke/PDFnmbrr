@@ -18,12 +18,11 @@ func main() {
 
 	targetDirField := widget.NewLabel("/Users/gernotstarke/_target")
 	targetDirButton := widget.NewButton("Target", func() {
-		targetDirField.SetText( fmt.Sprintf("%v", domain.TargetDir))
+		targetDirField.SetText(fmt.Sprintf("%v", domain.TargetDir))
 	})
 
 	srcDirField := widget.NewLabel("another directory")
-	srcDirButton := widget.NewButton( "Source", func(){})
-
+	srcDirButton := widget.NewButton("Source", func() {})
 
 	targetDirContainer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		targetDirButton,
@@ -34,7 +33,7 @@ func main() {
 		srcDirField,
 	)
 
-	dirContainer := fyne.NewContainerWithLayout( layout.NewVBoxLayout(),
+	dirContainer := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		srcDirContainer,
 		targetDirContainer)
 
