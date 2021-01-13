@@ -21,7 +21,7 @@ func CreateAndDisplaySplash()  {
 		splashWindow.Show()
 
 		go func() {
-			time.Sleep(time.Second * 3)
+			time.Sleep(time.Second * 4)
 			splashWindow.Close()
 		}()
 	}

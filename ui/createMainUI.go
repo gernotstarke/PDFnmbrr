@@ -22,7 +22,7 @@ func CreateMainUI() {
 
 	Appl = app.New()
 
-	CreateAndDisplaySplash()
+	// CreateAndDisplaySplash()
 
 	Appl.Settings().SetTheme(theme.LightTheme())
 	w := Appl.NewWindow(domain.AppName)
@@ -115,15 +115,16 @@ func targetDirSelectorGroup() *fyne.Container {
 		targetDirField.SetText(fmt.Sprintf("%v", domain.TargetDirName()))
 	})
 
-	targetValid := widget.NewCheck("valid:", func(bool) {})
-	targetValid.Disable()
+	targetDirLabel := canvas.NewText("", NavyColor)
+	targetDirLabel.TextSize = 9
+
 
 	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		targetDirButton,
 		//layout.NewSpacer(),
 		targetDirField,
 		layout.NewSpacer(),
-		targetValid,
+		targetDirLabel,
 	)
 }
 
@@ -141,9 +142,17 @@ func configurationPanel() fyne.CanvasObject {
 }
 
 func evenifyConfigGroup() *fyne.Container {
-	evenifyCheckbox := widget.NewCheck("Evenify?", func(bool) {})
 	evenifyText := widget.NewEntry()
+	evenifyText.Disable()
 	evenifyText.SetText(domain.BlankPageText())
+
+	evenifyCheckbox := widget.NewCheck("Evenify?", func( value bool) {
+		if value==false {
+			evenifyText.Disable()
+		} else {
+			evenifyText.Enable()
+		}
+	})
 
 	concatenateCheckbox := widget.NewCheck("Concatenate?", func(bool) {})
 	concatenateCheckbox.Disable()
@@ -158,13 +167,20 @@ func evenifyConfigGroup() *fyne.Container {
 
 func headerConfigGroup() *fyne.Container {
 
-	headingLabel := widget.NewLabel("Header text: ")
-
 	headingEntry := widget.NewEntry()
 	headingEntry.SetPlaceHolder(domain.HeaderText())
 
+	headerCheckbox := widget.NewCheck("Header?", func( value bool) {
+		if value==false {
+			headingEntry.Disable()
+		} else {
+			headingEntry.Enable()
+		}
+	})
+
+
 	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
-		headingLabel,
+		headerCheckbox,
 		headingEntry)
 }
 
