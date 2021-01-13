@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
+	"log"
 	"os"
 )
 
@@ -45,15 +46,15 @@ func SetupConfiguration() {
 
 	setupLanguageNeutralConfig()
 
-	switch lang := checkPreferedLanguage(); lang {
+	switch lang := checkPreferredLanguage(); lang {
 	case "German":
-		fmt.Println("Deutsch als Sprache identifiziert.")
+		log.Println("Deutsch als Sprache identifiziert.")
 		setupDEConfig()
 	case "English":
-		fmt.Println("English identified as user language.")
+		// fmt.Println("English identified as user language.")
 		setupENConfig()
 	default:
-		fmt.Printf("Unknown language. Falling back to EN\n")
+		log.Println("Unknown language. Falling back to EN\n")
 		setupENConfig()
 	}
 }
@@ -98,11 +99,11 @@ func setupENConfig() {
 	config.blankPageText = "Page intentionally left blank"
 }
 
-func checkPreferedLanguage() string {
+func checkPreferredLanguage() string {
 
 	var userPrefs = []language.Tag{
-		language.Make("gsw"), // Swiss German
-		language.Make("fr"),  // French
+		language.Make("de"), // German
+		//language.Make("fr"),  // French
 	}
 
 	var serverLangs = []language.Tag{
@@ -114,7 +115,7 @@ func checkPreferedLanguage() string {
 
 	tag, _, _ := matcher.Match(userPrefs...)
 
-	fmt.Printf("best match: %s (%s) index=%d confidence=%v\n",
+	fmt.Printf("best match: %s (%s)\n",
 		display.English.Tags().Name(tag),
 		display.Self.Name(tag))
 

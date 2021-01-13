@@ -12,7 +12,7 @@ var appl fyne.App
 
 func main() {
 
-	domain.SetupConfiguration()
+		domain.SetupConfiguration()
 	ui.CreateMainUI()
 
 }

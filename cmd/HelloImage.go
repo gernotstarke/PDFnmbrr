@@ -35,22 +35,3 @@ func main() {
 
 }
 
-func logoHeader2() fyne.CanvasObject {
-	appLogo1 := canvas.NewImageFromFile("resources/arc42-logo.png")
-	appLogo1.FillMode = canvas.ImageFillOriginal
-	appLogo1.Resize(fyne.NewSize(80, 40))
-
-	appLogo3 := canvas.NewImageFromFile("resources/PDFnumbrr-logo.png")
-	appLogo3.FillMode = canvas.ImageFillOriginal
-	appLogo3.Resize(fyne.NewSize(100, 120))
-
-	container := fyne.NewContainerWithLayout(
-		layout.NewGridLayout(4),
-		//fyne.NewContainerWithLayout(layout.NewBorderLayout( appLogo3, nil, nil, nil)) ,
-		fyne.NewContainerWithLayout(layout.NewVBoxLayout(), appLogo1),
-		layout.NewSpacer(),
-		layout.NewSpacer(),
-		appLogo3,
-	)
-	return container
-}

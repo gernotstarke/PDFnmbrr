@@ -13,18 +13,19 @@ import (
 	"pdfcpuSamples/resources"
 )
 
-
 // Appl exposes the fyne application - mainly to enable the quit-function to stop the app.
 var Appl fyne.App
-
 
 // CreateMainUI creates and shows the main graphical user interface.
 // It creates by delegating to "Panel" functions which will create their respective panel.
 func CreateMainUI() {
 
 	Appl = app.New()
+
+	CreateAndDisplaySplash()
+
 	Appl.Settings().SetTheme(theme.LightTheme())
-	w := Appl.NewWindow(domain.AppName )
+	w := Appl.NewWindow(domain.AppName)
 
 	container := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		logoHeaderPanel(),
@@ -36,12 +37,11 @@ func CreateMainUI() {
 		statusLine("no source directory selected"))
 
 	w.SetContent(container)
-	//w.Resize(fyne.NewSize(600, 400))
+	w.Resize(fyne.NewSize(600, 400))
 	w.SetFixedSize(true)
-	w.ShowAndRun()
 	w.CenterOnScreen()
+	w.ShowAndRun()
 }
-
 
 func parseURL(urlStr string) *url.URL {
 	link, err := url.Parse(urlStr)
@@ -58,9 +58,10 @@ func logoHeaderPanel() *fyne.Container {
 	arc42Logo.SetMinSize(fyne.NewSize(80, 40))
 	arc42Logo.Resize(fyne.NewSize(80, 40))
 
-	arc42Link := widget.NewHyperlinkWithStyle("arc42.org",
-		parseURL("https://arc42.org"), fyne.TextAlignLeading, fyne.TextStyle{Bold: false})
-
+	/*
+		arc42Link := widget.NewHyperlinkWithStyle("arc42.org",
+			parseURL("https://arc42.org"), fyne.TextAlignLeading, fyne.TextStyle{Bold: false})
+	*/
 	appLogo := canvas.NewImageFromResource(resources.PDFnmbrrlogoPNG)
 	appLogo.FillMode = canvas.ImageFillContain
 	appLogo.SetMinSize(fyne.NewSize(200, 120))
@@ -70,8 +71,7 @@ func logoHeaderPanel() *fyne.Container {
 		layout.NewHBoxLayout(),
 		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 			arc42Logo,
-			layout.NewSpacer(),
-			arc42Link),
+			layout.NewSpacer()),
 		layout.NewSpacer(),
 		appLogo,
 	)
@@ -80,17 +80,17 @@ func logoHeaderPanel() *fyne.Container {
 
 func directoriesPanel() fyne.CanvasObject {
 
-	dirContainer := fyne.NewContainerWithLayout( layout.NewVBoxLayout(),
+	dirContainer := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		srcDirSelectorGroup(),
 		targetDirSelectorGroup())
-	dirPanel :=  widget.NewCard("", "Directories", dirContainer)
+	dirPanel := widget.NewCard("", "Directories", dirContainer)
 
 	return dirPanel
 }
 
 func srcDirSelectorGroup() *fyne.Container {
-    // todo: replace label by Entry
-	srcDirField := widget.NewLabel("/Users/gernotstarke")
+	// todo: replace label by Entry
+	srcDirField := widget.NewLabel(domain.SourceDirName())
 
 	srcDirButton := widget.NewButton("Source", func() {
 		srcDirField.SetText(domain.SourceDirName())
@@ -109,10 +109,10 @@ func srcDirSelectorGroup() *fyne.Container {
 
 func targetDirSelectorGroup() *fyne.Container {
 	// todo: replace Label by Entry
-	targetDirField := widget.NewLabel("/Users/gernotstarke/_target")
+	targetDirField := widget.NewLabel(domain.TargetDirName())
 
 	targetDirButton := widget.NewButton("Target", func() {
-		targetDirField.SetText( fmt.Sprintf("%v", domain.TargetDirName()))
+		targetDirField.SetText(fmt.Sprintf("%v", domain.TargetDirName()))
 	})
 
 	targetValid := widget.NewCheck("valid:", func(bool) {})
@@ -126,23 +126,24 @@ func targetDirSelectorGroup() *fyne.Container {
 		targetValid,
 	)
 }
+
 //
 // ==== Configuration Panel ========
 //
 func configurationPanel() fyne.CanvasObject {
-	configContainer := fyne.NewContainerWithLayout( layout.NewVBoxLayout(),
+	configContainer := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		evenifyConfigGroup(),
 		headerConfigGroup(),
 		pageConfigGroup(),
-		)
+	)
 
-	return widget.NewCard("","Configuration", configContainer)
+	return widget.NewCard("", "Configuration", configContainer)
 }
 
 func evenifyConfigGroup() *fyne.Container {
 	evenifyCheckbox := widget.NewCheck("Evenify?", func(bool) {})
 	evenifyText := widget.NewEntry()
-	evenifyText.SetText("Diese Seite bleibt absichtlich frei")
+	evenifyText.SetText(domain.BlankPageText())
 
 	concatenateCheckbox := widget.NewCheck("Concatenate?", func(bool) {})
 	concatenateCheckbox.Disable()
@@ -160,36 +161,35 @@ func headerConfigGroup() *fyne.Container {
 	headingLabel := widget.NewLabel("Header text: ")
 
 	headingEntry := widget.NewEntry()
-	headingEntry.SetPlaceHolder ("This text will be placed in the header of each page")
+	headingEntry.SetPlaceHolder(domain.HeaderText())
 
-	return fyne.NewContainerWithLayout( layout.NewHBoxLayout(),
+	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		headingLabel,
 		headingEntry)
 }
 
-
 func pageConfigGroup() *fyne.Container {
 	pagePrefixEntry := widget.NewEntry()
-	pagePrefixEntry.SetText( "Seite")
+	pagePrefixEntry.SetText(domain.PageNumberPrefix())
 
 	pageNrPositionSelect := widget.NewSelectEntry([]string{"outside", "inside", "center"})
 	pageNrPositionSelect.SetText("outside")
 
-	return fyne.NewContainerWithLayout( layout.NewHBoxLayout(),
-		widget.NewLabel( "Page prefix:"),
+	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+		widget.NewLabel("Page prefix:"),
 		pagePrefixEntry,
 		layout.NewSpacer(),
-		widget.NewLabel( "Page nr position:"),
+		widget.NewLabel("Page nr position:"),
 		pageNrPositionSelect)
 }
 
-func statusLine(msg string ) *fyne.Container {
+func statusLine(msg string) *fyne.Container {
 
 	statusMsg := canvas.NewText(msg, DarkRedColor)
 	statusMsg.TextSize = 9
 	statusMsg.Alignment = fyne.TextAlignTrailing
 
-	versionLabel := canvas.NewText("v." + domain.VersionStr, NavyColor)
+	versionLabel := canvas.NewText("v."+domain.VersionStr, NavyColor)
 	versionLabel.TextSize = 10
 	versionLabel.Alignment = fyne.TextAlignCenter
 
@@ -201,22 +201,23 @@ func statusLine(msg string ) *fyne.Container {
 	)
 }
 
-func okCancelPanel() *fyne.Container {
+func okCancelPanel() fyne.CanvasObject {
 
 	OKButton := widget.NewButton("Process PDFs", func() {})
 	OKButton.Disable()
 
 	CancelButton := widget.NewButton("Cancel", quitApp)
 
-	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+	buttons :=  fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
 		CancelButton,
 		OKButton)
-}
 
+	okCancelPanel := widget.NewCard("", "Processing", buttons)
+
+	return okCancelPanel
+}
 
 func quitApp() {
 	Appl.Quit()
 }
-
-
