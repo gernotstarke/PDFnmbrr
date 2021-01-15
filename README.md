@@ -8,7 +8,6 @@ Adding page numbers to existing PDFs, and some more...
 [![Go Report Card](https://goreportcard.com/badge/github.com/gernotstarke/pdfnmbrr)](https://goreportcard.com/report/github.com/gernotstarke/pdfnmbrr)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gernotstarke_PDFnmbrr&metric=alert_status)](https://sonarcloud.io/dashboard?id=gernotstarke_PDFnmbrr)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c481ef8142826f71ff65/maintainability)](https://codeclimate.com/github/gernotstarke/pdfnmbrr/maintainability)
-[![golangci-lint](https://github.com/gernotstarke/pdfnmbrr/workflows/golangci-lint/badge.svg)](https://github.com/gernotstarke/pdfnmbrr)
 
 ##### The following won't currently work as some tests require filesystem access
 ![Go](https://github.com/gernotstarke/pdfnmbrr/workflows/Go/badge.svg) 
