@@ -6,7 +6,7 @@ import (
 )
 
 func GetUserHomeDirectory() string {
-	dir, err := os.Getwd()
+	dir, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatal(err)
 	}

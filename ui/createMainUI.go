@@ -94,10 +94,7 @@ func srcDirSelectorGroup() *fyne.Container {
 	srcDirField := widget.NewEntry()
 	srcDirField.SetText(domain.SourceDirName())
 
-	// todo: call file selector
-	//srcDirButton := widget.NewButton("Source", func() {
-	//	srcDirField.SetText(domain.SourceDirName())
-	//})
+
 
 	srcDirButton := widget.NewButton("Source", func() {
 		dialog.ShowFolderOpen(func(list fyne.ListableURI, err error) {
@@ -119,6 +116,7 @@ func srcDirSelectorGroup() *fyne.Container {
 			// dialog.ShowInformation("Folder Open", out, Window)
 		}, Window)
 	})
+	srcDirButton.SetIcon( theme.FolderOpenIcon() )
 
 	srcDirLabel := canvas.NewText("nothing selected", NavyColor)
 	srcDirLabel.TextSize = 9
@@ -135,17 +133,33 @@ func targetDirSelectorGroup() *fyne.Container {
 	targetDirField := widget.NewEntry()
 	targetDirField.SetText(domain.TargetDirName())
 
-	// todo: call file selector...
-	targetDirButton := widget.NewButton("Target", func() {
-		targetDirField.SetText(fmt.Sprintf("%v", domain.TargetDirName()))
-	})
 
+	targetDirButton := widget.NewButton("Target", func() {
+		dialog.ShowFolderOpen(func(list fyne.ListableURI, err error) {
+			if err != nil {
+				dialog.ShowError(err, Window)
+				return
+			}
+			if list == nil {
+				return
+			}
+
+			_, err = list.List()
+			if err != nil {
+				dialog.ShowError(err, Window)
+				return
+			}
+			targetDirField.SetText( list.Name())
+			fmt.Printf("Folder %s :\n%s", list.Name(),  list.String())
+			// dialog.ShowInformation("Folder Open", out, Window)
+		}, Window)
+	})
+	targetDirButton.SetIcon( theme.FolderOpenIcon() )
 	targetDirLabel := canvas.NewText("", NavyColor)
 	targetDirLabel.TextSize = 9
 
 	return fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		targetDirButton,
-		//layout.NewSpacer(),
 		targetDirField,
 		layout.NewSpacer(),
 		targetDirLabel,
